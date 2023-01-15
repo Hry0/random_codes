@@ -1,0 +1,70 @@
+from bdb import Breakpoint
+from rich import print
+import glob
+import random
+import vlc
+import time
+import random
+import sys
+from tinytag import TinyTag
+import tim_lim
+print("Program to play your favourite song:")
+folder="C://users//acer//music"
+import glob
+Path=glob.glob("C://users//acer//music/*.mp3")
+Names=[]
+for x in Path:
+    x=x.split("\\")[1][:-4]
+    Names.append(x)
+l=len(Names)
+for i in range(1,l+1):
+    print(i,"|",Names[i-1])
+nL=[]
+h=0
+ply=vlc.MediaPlayer()
+while True:
+    nL=[]
+    z=input("Enter the number to play the song or enter 'S' to create a shuffled playlist or 'Q' to quit:")
+    ply.stop()
+    if z.isdigit() and int(z)<=len(Names):
+        n=int(z)
+        x=Path[n-1]
+        ply=vlc.MediaPlayer(x)
+        ply.play()
+    elif z=='s' or z=='S':
+        Shuffled_playlist=Path
+        random.shuffle(Shuffled_playlist)
+        i=1
+        while i<=len(Shuffled_playlist):
+            ply.stop()
+            audio=TinyTag.get(Shuffled_playlist[i-1])
+            print("-"*30)
+            print("The Current song is:",Shuffled_playlist[i-1].split("\\")[1])
+            print("-"*30)
+            print("The next three songs are:")
+            add=0
+            for k in range(3):
+                print('\t',end="")
+                print(Shuffled_playlist[i+add].split("\\")[1])
+                add+=1
+            print("-"*30)
+            ply=vlc.MediaPlayer(Shuffled_playlist[i-1])
+            ply.play()
+            from threading import Timer
+            timeout = audio.duration
+            try:
+                prompt="> or q"
+                answer = tim_lim.input_with_timeout(prompt, timeout)
+            except tim_lim.TimeoutExpired:
+                print('Sorry, times up')
+            else:
+                print('Got %r' % answer)
+            i+=1
+    elif z=='q' or z=="Q":
+        break
+    else:
+        print("Invalid Input!!!!")
+    h+=1
+
+
+    

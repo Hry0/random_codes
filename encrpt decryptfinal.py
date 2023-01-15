@@ -1,0 +1,27 @@
+import pyperclip
+def clip(text):
+    pyperclip.copy(text)
+    pyperclip.paste()
+st=input("Enter something to encrypt or decrypt:")
+ed=input("Press:('E'-to encrypt 'D'-to decrypt):")
+key=int(input("Enter a Key:"))
+st2=""
+if ed=="E" or ed=="e":
+    for i in range(len(st)):
+        o=ord(st[i])
+        cter=chr(o+key)
+        st2+=cter
+    print("The encrypted message is:"+repr(st2)+"|\nFor Decription:\nKey=",key)
+    clip(repr(st2))
+elif ed=="D" or ed=="d":
+    st2=""
+    st = st.encode().decode( "unicode_escape" )
+    for i in st:
+        o=ord(i)
+        cter=chr(o-key)
+        st2+=cter
+    print("The decrypted message is:"+st2+"|")
+    clip(st2)
+else:
+    print("Enter the correct option.")
+#print("😍😍😍😍💕💕💕😉😆😆😆😆🤣🤣🤣🤣🗯🕕🕛🔳🔸")
